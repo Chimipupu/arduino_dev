@@ -41,8 +41,8 @@
 #define SEVEN_SEGMENT_LED_COLUMN_3     0b01000000   // 7セグ3桁目
 #define SEVEN_SEGMENT_LED_COLUMN_4     0b10000000   // 7セグ4桁目
 
-#define SEVEN_SEGMENT_LED_NUN          4
+#define DYNAMIC_LIGHT_TIME_MS          6            // 7セグLED ダイナミック点灯時間(msec)
 
-void drv_7segu_led_dynamic(uint8_t *p_dat_buf);
+void drv_num_to_7seg(uint32_t num, uint8_t *p_buf);
 
 #endif /* DRV_7SEGLED_HPP */

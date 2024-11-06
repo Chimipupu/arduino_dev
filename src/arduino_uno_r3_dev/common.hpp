@@ -15,10 +15,9 @@
 #include <Arduino.h>
 #include <stdint.h>
 #include <string.h>
+#include <avr/interrupt.h>
 
-#define SDI_74HC595_PIN          8    // 74HC595 Serial Data In PIN
-#define CLK_74HC595_PIN          7    // 74HC595 Clock PIN
-#define LATCH_74HC595_PIN        4    // 74HC595 Latch PIN
-#define DYNAMIC_LIGHT_TIME_MS    5    // 7セグLED ダイナミック点灯時間(msec)
+#define __DI        cli() // 割込みマスク（禁止）
+#define __EI        sei() // 割込み許可
 
 #endif /* COMMON_HPP */

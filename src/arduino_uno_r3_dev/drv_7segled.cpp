@@ -10,8 +10,10 @@
  */
 
 #include "common.hpp"
+#include "mfs.hpp"
 #include "drv_7segled.hpp"
 
+static void dynamic_7segu_led(uint8_t *p_dat_buf);
 static void seven_segment_led_ctrl(uint8_t colum, uint8_t data);
 
 static void seven_segment_led_ctrl(uint8_t colum, uint8_t data)
@@ -94,14 +96,13 @@ static void seven_segment_led_ctrl(uint8_t colum, uint8_t data)
             break;
     }
 
-    digitalWrite(LATCH_74HC595_PIN, LOW);
-    shiftOut(SDI_74HC595_PIN, CLK_74HC595_PIN, LSBFIRST, dat);
-    shiftOut(SDI_74HC595_PIN, CLK_74HC595_PIN, LSBFIRST, col);
-    digitalWrite(LATCH_74HC595_PIN, HIGH);
-    delay(DYNAMIC_LIGHT_TIME_MS);
+    digitalWrite(MFS_74HC595_LATCH_PIN, LOW);
+    shiftOut(MFS_74HC595_SDI_PIN, MFS_74HC595_CLK_PIN, LSBFIRST, dat);
+    shiftOut(MFS_74HC595_SDI_PIN, MFS_74HC595_CLK_PIN, LSBFIRST, col);
+    digitalWrite(MFS_74HC595_LATCH_PIN, HIGH);
 }
 
-void drv_7segu_led_dynamic(uint8_t *p_dat_buf)
+static void dynamic_7segu_led(uint8_t *p_dat_buf)
 {
     for(uint8_t i = 1; i <= 4; i++)
     {
@@ -109,4 +110,13 @@ void drv_7segu_led_dynamic(uint8_t *p_dat_buf)
         delay(DYNAMIC_LIGHT_TIME_MS);
         p_dat_buf++;
     }
+}
+
+void drv_num_to_7seg(uint32_t num, uint8_t *p_buf)
+{
+    p_buf[3] = num / 1000;          // 7セグ桁1目 = 数値の1000の位
+    p_buf[2] = (num / 100) % 10;    // 7セグ桁2目 = 数値の100の位
+    p_buf[1] = (num / 10) % 10;     // 7セグ桁3目 = 数値の10の位
+    p_buf[0] = num % 10;            // 7セグ桁4目 = 数値の1の位
+    dynamic_7segu_led(p_buf);
 }
