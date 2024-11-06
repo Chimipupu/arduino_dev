@@ -12,7 +12,9 @@
 #include "common.hpp"
 #include "drv_7segled.hpp"
 
-void drv_7segu_led_ctrl(uint8_t colum, uint8_t data)
+static void seven_segment_led_ctrl(uint8_t colum, uint8_t data);
+
+static void seven_segment_led_ctrl(uint8_t colum, uint8_t data)
 {
     uint8_t col = SEVEN_SEGMENT_LED_COLUMN_1;
     uint8_t dat = SEVEN_SEGMENT_LED_NONE;
@@ -86,6 +88,7 @@ void drv_7segu_led_ctrl(uint8_t colum, uint8_t data)
         case 0x0F:
             dat = SEVEN_SEGMENT_LED_F;
             break;
+        case 0xFF:
         default:
             dat = SEVEN_SEGMENT_LED_NONE;
             break;
@@ -96,4 +99,14 @@ void drv_7segu_led_ctrl(uint8_t colum, uint8_t data)
     shiftOut(SDI_74HC595_PIN, CLK_74HC595_PIN, LSBFIRST, col);
     digitalWrite(LATCH_74HC595_PIN, HIGH);
     delay(DYNAMIC_LIGHT_TIME_MS);
+}
+
+void drv_7segu_led_dynamic(uint8_t *p_dat_buf)
+{
+    for(uint8_t i = 1; i <= 4; i++)
+    {
+        seven_segment_led_ctrl(i, *p_dat_buf);
+        delay(DYNAMIC_LIGHT_TIME_MS);
+        p_dat_buf++;
+    }
 }

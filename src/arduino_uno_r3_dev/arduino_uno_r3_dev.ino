@@ -1,6 +1,8 @@
 #include "common.hpp"
 #include "drv_7segled.hpp"
 
+uint8_t s_7segled_dat_buf[SEVEN_SEGMENT_LED_NUN] = { 0x03, 0x02, 0x01, 0x00 };
+
 void setup()
 {
     pinMode(SDI_74HC595_PIN, OUTPUT);
@@ -10,12 +12,5 @@ void setup()
 
 void loop()
 {
-    for(uint8_t i = 1; i <= 4; i++)
-    {
-        for(uint8_t k = 0; k <= 9; k++)
-        {
-            drv_7segu_led_ctrl(i, k);
-            delay(100);
-        }
-    }
+    drv_7segu_led_dynamic(&s_7segled_dat_buf[0]);
 }

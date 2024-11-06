@@ -41,6 +41,8 @@
 #define SEVEN_SEGMENT_LED_COLUMN_3     0b01000000   // 7セグ3桁目
 #define SEVEN_SEGMENT_LED_COLUMN_4     0b10000000   // 7セグ4桁目
 
-void drv_7segu_led_ctrl(uint8_t colum, uint8_t data);
+#define SEVEN_SEGMENT_LED_NUN          4
+
+void drv_7segu_led_dynamic(uint8_t *p_dat_buf);
 
 #endif /* DRV_7SEGLED_HPP */
