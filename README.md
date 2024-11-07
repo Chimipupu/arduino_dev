@@ -4,19 +4,44 @@ AVRマイコンの評価F/Wの個人開発リポジトリ🥳
 ## 実装機能
 
 - 📍S/W(アプリ)
-  - ✅7セグLED制御機能（74HC595）
+  - ✅7セグLEDの制御処理（74HC595で制御）
     - ✅ダイナミック点灯
     - ✅数値から7セグ4桁に変換
+  - ✅ボタン押し判定
 
 - 📍H/W(ハードウェア)
-  - UART
+  - 📍UART
     - ✅文字をシリアル出力
-  - 割込み（ISR）
-    - タイマー⏰
-      - タイマー1割込み（TIMER1_COMPA_vect）
-        - ✅変数インクリメント
+  - 📍タイマー⏰
+    - ❌タイマー0(8bit)⏰ ... 未使用
+    - ✅タイマー1(16bit)⏰ ... 1000㎳インターバル
+    - ✅タイマー2(bit)⏰ ... 8.128msインターバル
+  - 📍GPIO
+    - ✅GPIO 3 ... ブザー
+    - ✅GPIO 4 ... 74HC595 ラッチ用ピン
+    - ✅GPIO 7 ... 74HC595 クロック用ピン
+    - ✅GPIO 8 ... 74HC595 シリアルデータ用ピン
+    - ✅GPIO 10 ... LED4
+    - ✅GPIO 11 ... LED3
+    - ✅GPIO 12 ... LED2
+    - ✅GPIO 13 ... LED1
+    - ✅GPIO 15 ... ボタン1
+    - ✅GPIO 16 ... ボタン2
+    - ✅GPIO 17 ... ボタン3
+
+- 📍割込み（ISR）
+    - ❌タイマー0⏰（TIMER0_COMPA_vect）
+      - ❌未使用
+    - ✅タイマー1⏰（TIMER1_COMPA_vect）
+      - ✅1秒カウント
+    - ✅タイマー2⏰（TIMER2_COMPA_vect）
+      - ✅ボタン監視
 
 ## 開発環境
+- 📍基板 : ATmega328p(Arduino Uno Rev.3)
+- 📍シールド : MFS(マルチファンクションシールド)
+
+## ATmega328p(MCU)
 - MCU : ATmega328p
   - CPU : AVR
   - 命令長 : 8bit
@@ -30,8 +55,7 @@ AVRマイコンの評価F/Wの個人開発リポジトリ🥳
   - SPI : x1ch
   - I2C : x1ch
   - ADC : 10bit x8ch
-  - DAC : N/A
+  - WDT : 1
   - Timer
     - 8bit : x2ch
     - 16bit : x1ch
-  - WDT : 1

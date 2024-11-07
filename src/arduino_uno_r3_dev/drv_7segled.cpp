@@ -107,7 +107,7 @@ static void dynamic_7segu_led(uint8_t *p_dat_buf)
     for(uint8_t i = 1; i <= 4; i++)
     {
         seven_segment_led_ctrl(i, *p_dat_buf);
-        delay(DYNAMIC_LIGHT_TIME_MS);
+        // delay(DYNAMIC_LIGHT_TIME_MS);
         p_dat_buf++;
     }
 }
