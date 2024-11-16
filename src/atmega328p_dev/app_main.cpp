@@ -57,16 +57,19 @@ static void eeprom_dump(void)
         if (address % ROW_SIZE == 0) {
             if (address != 0) Serial.println();
                 Serial.print("0x");
-                Serial.print(address, HEX);
                 for (int i = String(address, HEX).length(); i < 4; i++)
                 {
                     Serial.print("0");
                 }
+                Serial.print(address, HEX);
                 Serial.print(": ");
         }
         byte value = EEPROM.read(address);
-        if (value < 0x10) Serial.print("0");
-        Serial.print(value, HEX);
+        if (value < 0x10) {
+            Serial.print("0");
+        } else {
+            Serial.print(value, HEX);
+        }
         Serial.print(" ");
     }
     Serial.println();
