@@ -18,7 +18,7 @@
 #include <avr/interrupt.h>
 
 #define _PWM_USE_
-// #define _DEBUG_USE_
+#define _DEBUG_USE_
 
 #define OB_LED_PIN    13
 
