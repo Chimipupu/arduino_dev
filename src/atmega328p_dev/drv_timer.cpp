@@ -11,24 +11,26 @@
 
 #include "drv_timer.hpp"
 
+extern bool g_main_proc_flg;
+
 // タイマー0(16.320ms) 割込みハンドラISR
 #if 0
 ISR(TIMER0_COMPA_vect)
 {
-    // Arduinoが既にdelay()で使ってる
+    // ArduinoIDEで既にdelay()で使用済み
 }
 #endif
 
 // タイマー1(100ms) 割込みハンドラISR
 ISR(TIMER1_COMPA_vect)
 {
-
+    // 
 }
 
 // タイマー2(8.128ms) 割込みハンドラISR
 ISR(TIMER2_COMPA_vect)
 {
-    // 
+    g_main_proc_flg = true;
 }
 
 void drv_timer_init(void)

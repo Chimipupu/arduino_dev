@@ -20,5 +20,4 @@ void setup()
 void loop()
 {
     app_main();
-    delay(1000);
 }

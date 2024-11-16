@@ -1,3 +1,4 @@
+#include <stdint.h>
 /**
  * @file app_main.cpp
  * @author ちみ/Chimi(https://github.com/Chimipupu)
@@ -11,7 +12,33 @@
 
 #include "app_main.hpp"
 
+bool g_main_proc_flg = false;
 static uint8_t s_val = 0;
+
+#define _PWM_USE_
+#ifdef _PWM_USE_
+
+static void led_fade(uint8_t pin);
+static bool s_led_fade_amount = false;
+static uint8_t s_led_pwm_val = 0;
+
+static void led_fade(uint8_t pin)
+{
+    analogWrite(pin, s_led_pwm_val);
+
+    if (s_led_fade_amount != true) {
+        s_led_pwm_val++;
+        if (s_led_pwm_val == 255){
+            s_led_fade_amount = !s_led_fade_amount;
+        }
+    } else {
+        s_led_pwm_val--;
+        if (s_led_pwm_val == 0){
+            s_led_fade_amount = !s_led_fade_amount;
+        }
+    }
+}
+#endif /* _PWM_USE_ */
 
 void app_main_init(void)
 {
@@ -19,8 +46,12 @@ void app_main_init(void)
     Serial.begin(115200);
 
     // GPIO初期化
+#ifdef _PWM_USE_
+    // NOP
+#else
     pinMode(OB_LED_PIN, OUTPUT);
     digitalWrite(OB_LED_PIN, HIGH);
+#endif /* _PWM_USE_ */
 
     // タイマー初期化
     drv_timer_init();
@@ -28,13 +59,22 @@ void app_main_init(void)
 
 void app_main(void)
 {
-    uint32_t start_time = millis();
+    while (g_main_proc_flg)
+    {
+        // uint32_t start_time = millis();
 
-    digitalWrite(OB_LED_PIN, s_val);
-    s_val = !s_val;
+#ifdef _PWM_USE_
+        // led_fade(OB_LED_PIN);
+#else
+        digitalWrite(OB_LED_PIN, s_val);
+        s_val = !s_val;
+#endif /* _PWM_USE_ */
 
-    uint32_t end_time = millis();
-    Serial.print(F("処理時間 : "));
-    Serial.print(end_time - start_time);
-    Serial.print(F(" ms\n"));
+        // uint32_t end_time = millis();
+        // Serial.print(F("処理時間 : "));
+        // Serial.print(end_time - start_time);
+        // Serial.print(F(" ms\n"));
+
+        g_main_proc_flg = false;
+    }
 }
