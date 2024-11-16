@@ -15,9 +15,7 @@
 bool g_main_proc_flg = false;
 static uint8_t s_val = 0;
 
-#define _PWM_USE_
 #ifdef _PWM_USE_
-
 static void led_fade(uint8_t pin);
 static bool s_led_fade_amount = false;
 static uint8_t s_led_pwm_val = 0;
@@ -43,7 +41,9 @@ static void led_fade(uint8_t pin)
 void app_main_init(void)
 {
     // UART初期化
+#ifdef _DEBUG_USE_
     Serial.begin(115200);
+#endif /* _DEBUG_USE_ */
 
     // GPIO初期化
 #ifdef _PWM_USE_
@@ -61,7 +61,9 @@ void app_main(void)
 {
     while (g_main_proc_flg)
     {
-        // uint32_t start_time = millis();
+#ifdef _DEBUG_USE_
+        uint32_t start_time = millis();
+#endif /* _DEBUG_USE_ */
 
 #ifdef _PWM_USE_
         // led_fade(OB_LED_PIN);
@@ -70,10 +72,12 @@ void app_main(void)
         s_val = !s_val;
 #endif /* _PWM_USE_ */
 
-        // uint32_t end_time = millis();
-        // Serial.print(F("処理時間 : "));
-        // Serial.print(end_time - start_time);
-        // Serial.print(F(" ms\n"));
+#ifdef _DEBUG_USE_
+        uint32_t end_time = millis();
+        Serial.print(F("処理時間 : "));
+        Serial.print(end_time - start_time);
+        Serial.print(F(" ms\n"));
+#endif /* _DEBUG_USE_ */
 
         g_main_proc_flg = false;
     }

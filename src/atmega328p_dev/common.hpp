@@ -17,6 +17,9 @@
 #include <string.h>
 #include <avr/interrupt.h>
 
+#define _PWM_USE_
+// #define _DEBUG_USE_
+
 #define OB_LED_PIN    13
 
 #define __DI           cli() // 割込みマスク（禁止）
