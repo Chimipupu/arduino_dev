@@ -1,6 +1,6 @@
 /**
  * @file mfs.hpp
- * @author ちみ/Chimi（https://github.com/Chimipupu）
+ * @author ちみ/Chimi(https://github.com/Chimipupu)
  * @brief マルチファンクションシールド(MFS)のヘッダー
  * @version 0.1
  * @date 2024-11-07

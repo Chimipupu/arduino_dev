@@ -1,12 +1,10 @@
-# AVRマイコン評価F/W開発 by ちみ
-AVRマイコンの評価F/Wの個人開発リポジトリ🥳
+# MFS評価F/W開発 by ちみ
+MFSの評価F/Wのブランチ🥳
 
 ## 開発環境
 - 📍基板
   - 📍ATmega328p
     - 📍Arduino Uno Rev.3
-    - 📍Arduino Nano
-    - 📍Arduino pro mini
 - 📍シールド : MFS(マルチファンクションシールド)
 
 ## 実装機能
@@ -44,23 +42,3 @@ AVRマイコンの評価F/Wの個人開発リポジトリ🥳
     - ✅1秒カウント
   - ✅タイマー2⏰（TIMER2_COMPA_vect）
     - ✅ボタン監視
-
-## ATmega328p(MCU)
-
-- MCU : ATmega328p
-  - CPU : AVR
-  - 命令長 : 8bit
-  - Clock : 16MHz
-  - ROM : 32KB
-  - RAM : 2KB
-  - EEPROM : 1KB
-  - GPIO : x23
-  - PWM : x6ch
-  - UART : x1ch
-  - SPI : x1ch
-  - I2C : x1ch
-  - ADC : 10bit x8ch
-  - WDT : 1
-  - Timer
-    - 8bit : x2ch
-    - 16bit : x1ch

@@ -1,7 +1,15 @@
-#include "common.hpp"
-#include "drv_timer.hpp"
-#include "drv_7segled.hpp"
-#include "mfs.hpp"
+/**
+ * @file app_main.cpp
+ * @author ちみ/Chimi(https://github.com/Chimipupu)
+ * @brief アプリ メイン
+ * @version 0.1
+ * @date 2024-11-17
+ * 
+ * @copyright Copyright (c) 2024 ちみ/Chimi(https://github.com/Chimipupu)
+ * 
+ */
+
+#include "app_main.hpp"
 
 uint32_t g_cnt = 0;
 static uint8_t s_7segled_dat_buf[SEVEN_SEGMENT_LED_NUN] = { 0x03, 0x02, 0x01, 0x00 };
@@ -13,8 +21,11 @@ void beep_buzzer(uint8_t cnt)
     digitalWrite(MFS_BUZZER_PIN, HIGH);
 }
 
-void setup()
+void app_main_init(void)
 {
+    // UART初期化
+    Serial.begin(115200);
+
     // GPIO初期化
     pinMode(MFS_BUTTON_S1_PIN, INPUT);
     pinMode(MFS_BUTTON_S2_PIN, INPUT);
@@ -31,9 +42,6 @@ void setup()
     // タイマー初期化
     drv_timer_init();
 
-    // UART初期化
-    Serial.begin(115200);
-
     // MFSのLEDとブザーを停止
     digitalWrite(MFS_LED_1_PIN, HIGH);
     digitalWrite(MFS_LED_2_PIN, HIGH);
@@ -42,7 +50,7 @@ void setup()
     digitalWrite(MFS_BUZZER_PIN, HIGH);
 }
 
-void loop()
+void app_main(void)
 {
     uint32_t start_time = millis();
 

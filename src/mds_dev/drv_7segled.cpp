@@ -1,6 +1,6 @@
 /**
  * @file drv_7segled.cpp
- * @author ちみ/Chimi（https://github.com/Chimipupu）
+ * @author ちみ/Chimi(https://github.com/Chimipupu)
  * @brief 7セグLEDドライバ
  * @version 0.1
  * @date 2024-11-07
