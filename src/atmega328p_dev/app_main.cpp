@@ -1,4 +1,3 @@
-#include <stdint.h>
 /**
  * @file app_main.cpp
  * @author ちみ/Chimi(https://github.com/Chimipupu)
@@ -11,58 +10,55 @@
  */
 
 #include "app_main.hpp"
-
-#ifdef _DEBUG_USE_
+#include <stdint.h>
 #include <EEPROM.h>
-static void eeprom_dump(void);
-static void mcu_info_print(void);
-#endif /* _DEBUG_USE_ */
 
 bool g_main_proc_flg = false;
 static uint8_t s_led_val = 0;
 
-#ifdef _DEBUG_USE_
-#include <EEPROM.h>
-static void eeprom_dump(void)
-{
-    const int EEPROM_SIZE = EEPROM.length();
-    const int ROW_SIZE = 16;
+static void mcu_info_print(void);
+static void eeprom_dump_print(uint32_t dump_size);
 
-    Serial.println("[EEPROM Dump]");
-    for (int address = 0; address < EEPROM_SIZE; address++) {
-        if (address % ROW_SIZE == 0) {
-            if (address != 0) Serial.println();
-                Serial.print("0x");
-                for (int i = String(address, HEX).length(); i < 4; i++)
+static void eeprom_dump_print(uint32_t dump_size)
+{
+    uint8_t i, val;
+    uint8_t new_line_size = 16;
+    uint32_t addr;
+
+    Serial.println(F("[EEPROM Dump]"));
+    for (addr = 0; addr < dump_size; addr++)
+    {
+        if (addr % new_line_size == 0) {
+            if (addr != 0) Serial.println();
+                Serial.print(F("0x"));
+                for (i = String(addr, HEX).length(); i < 4; i++)
                 {
-                    Serial.print("0");
+                    Serial.print(F("0"));
                 }
-                Serial.print(address, HEX);
-                Serial.print(": ");
+                Serial.print(addr, HEX);
+                Serial.print(F(": "));
         }
-        byte value = EEPROM.read(address);
-        if (value < 0x10) {
-            Serial.print("0");
+        val = EEPROM.read(addr);
+        if (val < 0x10) {
+            Serial.print(F("0"));
         } else {
-            Serial.print(value, HEX);
+            Serial.print(val, HEX);
         }
-        Serial.print(" ");
+            Serial.print(F(" "));
     }
     Serial.println();
 }
 
 static void mcu_info_print(void)
 {
-    uint32_t eeprom_size = 0;
-
-    Serial.print("[ATmega328P F/W Test]\n");
-    eeprom_size = EEPROM.length();
-    Serial.print("EEPROM Size : ");
-    Serial.print(eeprom_size);
-    Serial.print(" Byte\n");
-    eeprom_dump();
-}
+    Serial.print(F("[ATmega328P F/W Test]\n"));
+    Serial.print(F("EEPROM Size : "));
+    Serial.print(OC_EEPROM_SIZE);
+    Serial.print(F(" Byte\n"));
+#ifdef _DEBUG_USE_
+    eeprom_dump_print(OC_EEPROM_SIZE);
 #endif /* _DEBUG_USE_ */
+}
 
 /**
  * @brief アプリ初期化
@@ -72,9 +68,7 @@ void app_main_init(void)
 {
     // UART初期化
     Serial.begin(115200);
-#ifdef _DEBUG_USE_
     mcu_info_print();
-#endif /* _DEBUG_USE_ */
 
     // GPIO初期化
     pinMode(OB_LED_PIN, OUTPUT);
@@ -92,7 +86,7 @@ void app_main(void)
 {
     volatile uint32_t start_time, end_time, proc_time;
 
-    while (g_main_proc_flg)
+    if(g_main_proc_flg != false)
     {
         // Serial.println(F("[App Main]"));
 
@@ -110,5 +104,7 @@ void app_main(void)
         Serial.print(proc_time);
         Serial.print(F("[us]\n"));
 #endif /* _DEBUG_USE_ */
+
+        g_main_proc_flg = false;
     }
 }

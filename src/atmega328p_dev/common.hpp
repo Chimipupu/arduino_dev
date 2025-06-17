@@ -19,9 +19,10 @@
 
 #define _DEBUG_USE_
 
-#define OB_LED_PIN    13    // 基板実装LEDの接続GPIO番号
+#define OB_LED_PIN          13    // 基板実装LEDの接続GPIO番号
+#define OC_EEPROM_SIZE      1024  // マイコン内蔵EEPROMのサイズ
 
-#define __DI           cli() // 割込みマスク（禁止）
-#define __EI           sei() // 割込み許可
+#define __DI                cli() // 割込みマスク（禁止）
+#define __EI                sei() // 割込み許可
 
 #endif /* COMMON_HPP */

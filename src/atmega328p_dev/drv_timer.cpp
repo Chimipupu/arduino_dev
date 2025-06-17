@@ -24,13 +24,13 @@ ISR(TIMER0_COMPA_vect)
 // タイマー1(1000ms) 割込みハンドラISR
 ISR(TIMER1_COMPA_vect)
 {
-    // g_main_proc_flg = true;
+    g_main_proc_flg = true;
 }
 
 // タイマー2(8.128ms) 割込みハンドラISR
 ISR(TIMER2_COMPA_vect)
 {
-    g_main_proc_flg = true;
+    // g_main_proc_flg = true;
 }
 
 void drv_timer_init(void)
@@ -47,7 +47,7 @@ void drv_timer_init(void)
     TIMSK0 |= (1 << OCIE0A);   // タイマー0の比較Aマッチ割り込みを許可
 #endif
 
-    // タイマー1(16bit) ... インターバルタイマー設定(100ms)
+    // タイマー1(16bit) ... インターバルタイマー設定(1000ms)
     TCCR1A = 0;                // タイマー1の制御レジスタAをクリア
     TCCR1B = 0;                // タイマー1の制御レジスタBをクリア
     TCNT1 = 0;                 // タイマー1のカウンタをクリア
