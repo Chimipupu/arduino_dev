@@ -21,10 +21,10 @@ ISR(TIMER0_COMPA_vect)
 }
 #endif
 
-// タイマー1(100ms) 割込みハンドラISR
+// タイマー1(1000ms) 割込みハンドラISR
 ISR(TIMER1_COMPA_vect)
 {
-    // 
+    // g_main_proc_flg = true;
 }
 
 // タイマー2(8.128ms) 割込みハンドラISR
